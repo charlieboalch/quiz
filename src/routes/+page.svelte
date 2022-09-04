@@ -1,2 +1,17 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+    import Home from './Home.svelte';
+    import MultipleChoice from './MultipleChoice.svelte';
+    //'home' = home, 'mc' = multiple choice...
+    var screenNum = 'home';
+    let globalmap = new Map();
+
+    function handleScreenChange(event) {
+        screenNum = event.detail.text;
+    }
+</script>
+
+{#if screenNum == 'home'}
+    <Home on:message={handleScreenChange} bind:map={globalmap}/>
+{:else if screenNum == 'mc'}
+    <MultipleChoice map={globalmap} on:message={handleScreenChange}/>
+{/if}
