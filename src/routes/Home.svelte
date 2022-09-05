@@ -40,8 +40,10 @@
     export let map = new Map();
 
     function parseData () {
+        if (data == '') return;
         isLoaded = false;
         const datalist = data.split(";;");
+        datalist.splice(datalist.length - 1, 1);
         for (let i = 0; i < datalist.length; i++){
             const list = datalist[i].split("?:");
             map.set(list[0], list[1]);

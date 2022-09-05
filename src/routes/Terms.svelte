@@ -24,7 +24,6 @@
     if (!(map instanceof Map)) throw new TypeError("map is not instace of Map");
 
     const keys = Array.from(map.entries());
-    keys.splice(keys.length - 1, 1)
     console.log(keys.toString())
 
     function returnHome(){
