@@ -6,7 +6,7 @@
 
     .title {
         font-family: Verdana, Geneva, Tahoma, sans-serif;
-        font-size: 50px;
+        font-size: 40px;
         padding-top: 5%;
         display: block;
         font-weight: 300;
@@ -14,6 +14,13 @@
 
     input {
         display: inline;
+    }
+
+    p {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: large;
+        display: block;
+        font-weight: 300;
     }
 </style>
 
@@ -27,17 +34,19 @@
     let prompt = '';
     let answer = '';
     let input = '';
+    let shouldShowAnswer = false;
 
     function submitAnswer() {
         if (stringSimilarity.compareTwoStrings(answer, input) >= 0.80){
             prompt = "Correct!";
         } else {
             prompt = "Incorrect :(";
+            shouldShowAnswer = true;
         }
 
         setTimeout(() => {
             nextQuestion();
-        }, 2000);
+        }, 3000);
     }
 
     //init logic
@@ -52,6 +61,7 @@
     function nextQuestion() {
         if (!(map instanceof Map)) return;
         input = '';
+        shouldShowAnswer = false;
 
         let correct = Math.floor(Math.random() * map.size);
         let temp = Array.from(map.keys());
@@ -60,12 +70,22 @@
         answer = map.get(temp[correct]);
         console.log(answer);
     }
+
+    function returnHome() {
+        dispatch("message", {
+            text: 'home'
+        });
+    }
 </script>
 
 <div class="centered">
     <h1 class="title">{prompt}</h1>
+    {#if shouldShowAnswer}
+        <p>{answer}</p>
+    {/if}
     <div>
         <input bind:value="{input}">
         <button on:click={submitAnswer}>Submit</button>
+        <button on:click={returnHome}>Home</button>
     </div>
 </div>
