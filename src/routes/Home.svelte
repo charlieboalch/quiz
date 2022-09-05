@@ -58,6 +58,20 @@
             text: place
         });
     }
+
+    function swapKeyValue(){
+        if (!(map instanceof Map)) return;
+
+        const terms = Array.from(map.keys());
+        const def = Array.from(map.values());
+
+        map.clear();
+        for (let i = 0; i < terms.length; i++){
+            map.set(def[i], terms[i]);
+        }
+
+        map = map;
+    }
 </script>
 
 <div class="title centered">
@@ -78,6 +92,7 @@
         <button class="button" on:click={() => broadcastDestination('mc')}>Multiple Choice</button>
         <button class="button" on:click={() => broadcastDestination('learn')}>Learn</button>
         <button class="button" on:click={() => broadcastDestination('terms')}>Terms</button>
+        <button class="button" on:click={swapKeyValue}>Swap Definitions</button>
     {/if}
     <button class="button" on:click={() => {
         alert("To use: \nGo to a Quizlet set while logged into an account, click the ... below the flashcards, select 'export', set space between term and definition to '?:' and between rows to ';;', then paste in text box.")
