@@ -51,9 +51,9 @@
         map = map;
     }
 
-    function broadcastMultiple(){
+    function broadcastDestination(place){
         dispatch('message', {
-            text: 'mc'
+            text: place
         });
     }
 </script>
@@ -71,10 +71,13 @@
     <button on:click="{parseData}">Load</button>
 </div>
 
-{#if map.size != 0}
-    <div class="centered">
-        <button class="button" on:click={broadcastMultiple}>Multiple Choice</button>
+<div class="centered">
+    {#if map.size != 0}
+        <button class="button" on:click={() => broadcastDestination('mc')}>Multiple Choice</button>
         <button class="button">Learn</button>
-        <button class="button">Terms</button>
-    </div>
-{/if}
+        <button class="button" on:click={() => broadcastDestination('terms')}>Terms</button>
+    {/if}
+    <button class="button" on:click={() => {
+        alert("To use: \nGo to a Quizlet set while logged into an account, click the ... below the flashcards, select 'export', set space between term and definition to '?:' and between rows to ';;', then paste in text box.")
+    }}>Help</button>
+</div>
