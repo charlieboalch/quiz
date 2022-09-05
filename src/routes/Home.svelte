@@ -42,8 +42,8 @@
     function parseData () {
         isLoaded = false;
         const datalist = data.split(";;");
-        for (const termdef in datalist){
-            const list = termdef.split("?:");
+        for (let i = 0; i < datalist.length; i++){
+            const list = datalist[i].split("?:");
             map.set(list[0], list[1]);
         }
         data = '';
@@ -75,5 +75,6 @@
     <div class="centered">
         <button class="button" on:click={broadcastMultiple}>Multiple Choice</button>
         <button class="button">Learn</button>
+        <button class="button">Terms</button>
     </div>
 {/if}

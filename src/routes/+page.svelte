@@ -10,6 +10,8 @@
     }
 </script>
 
+<title>Quiz Me</title>
+
 {#if screenNum == 'home'}
     <Home on:message={handleScreenChange} bind:map={globalmap}/>
 {:else if screenNum == 'mc'}
