@@ -1,5 +1,6 @@
 <script>
     import Home from './Home.svelte';
+import Learn from './Learn.svelte';
     import MultipleChoice from './MultipleChoice.svelte';
     import Terms from './Terms.svelte';
     //'home' = home, 'mc' = multiple choice, 'terms' = terms, ...
@@ -19,4 +20,6 @@
     <MultipleChoice map={globalmap} on:message={handleScreenChange}/>
 {:else if screenNum == 'terms'}
     <Terms map={globalmap} on:message={handleScreenChange}/>
+{:else if screenNum == 'learn'}
+    <Learn map={globalmap} on:message={handleScreenChange}/>
 {/if}

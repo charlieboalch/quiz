@@ -24,6 +24,7 @@
 	"type": "module",
 	"dependencies": {
 		"node-fetch": "^3.2.10",
-		"node-html-parser": "^5.4.2"
+		"node-html-parser": "^5.4.2",
+		"string-similarity": "^4.0.4"
 	}
 }

@@ -76,7 +76,7 @@
 <div class="centered">
     {#if map.size != 0}
         <button class="button" on:click={() => broadcastDestination('mc')}>Multiple Choice</button>
-        <button class="button">Learn</button>
+        <button class="button" on:click={() => broadcastDestination('learn')}>Learn</button>
         <button class="button" on:click={() => broadcastDestination('terms')}>Terms</button>
     {/if}
     <button class="button" on:click={() => {
