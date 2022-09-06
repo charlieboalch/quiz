@@ -2,7 +2,7 @@
     .title {
         font-family: Verdana, Geneva, Tahoma, sans-serif;
         font-size: 50px;
-        padding-top: 5%;
+        padding-top: 10%;
     }
 
     .centered {
@@ -16,7 +16,7 @@
     }
 
     .input {
-        margin: 5%;
+        margin: 2%;
         margin-right: 0%;
         margin-left: 35%;
         margin-bottom: 0%;
@@ -77,7 +77,6 @@
 <div class="title centered">
     Quiz Me
 </div>
-
 <div class="flavortext centered">
     now portable
 </div>

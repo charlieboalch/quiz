@@ -7,6 +7,7 @@
     let button2 = '';
     let button3 = '';
     let button4 = '';
+    let shouldShowAnswer = false;
 
     const dispatch = createEventDispatcher();
 
@@ -32,6 +33,7 @@
         button2 = '';
         button3 = '';
         button4 = '';
+        shouldShowAnswer = false;
         let correct = Math.floor(Math.random() * map.size);
 
         let temp = Array.from(map.keys());
@@ -73,12 +75,13 @@
         if (arg == answer){
             prompt = "Correct!";
         } else {
-            prompt == "Incorrect :(";
+            prompt = "Incorrect :(";
+            shouldShowAnswer = true;
         }
 
         setTimeout(() => {
             nextQuestion();
-        }, 1500);
+        }, 2500);
     }
 
     function returnHome(){
@@ -94,11 +97,21 @@
         text-align: center
     }
 
+    p {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-size: large;
+        font-weight: 300;
+        display: block;
+    }
+
     .title {
         font-family: Verdana, Geneva, Tahoma, sans-serif;
-        font-size: 50px;
+        font-size: 40px;
         padding-top: 5%;
         font-weight: 300;
+        margin-left: 10%;
+        margin-right: 10%;
+        display: block;
     }
 
     .option {
@@ -111,7 +124,12 @@
     }
 </style>
 
-<h1 class="centered title">{prompt}</h1>
+<div class="centered">
+    <h1 class="title">{prompt}</h1>
+    {#if shouldShowAnswer}
+        <p>{answer}</p>  
+    {/if}
+</div>
 
 <div class="centered">
     <button class="option" on:click={() => onButtonClick(button1)}>{button1}</button>
