@@ -39,9 +39,7 @@
 
 <script>
     //import fetch from "node-fetch";
-    import { createEventDispatcher, onMount } from 'svelte';
-
-    const dispatch = createEventDispatcher();
+    import { onMount } from 'svelte';
 
     export let data = '';
     export let map = new Map();

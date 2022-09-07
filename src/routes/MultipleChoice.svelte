@@ -17,13 +17,6 @@
             throw new TypeError("Map is incorrect type, contact server administrator");
         }
 
-        if (map.size < 4){
-            alert("There are not enough terms in this set for this mode, sorry!");
-            dispatch('message', {
-                text: 'home'
-            });
-        }
-
         nextQuestion();
     });
 
@@ -42,7 +35,6 @@
         answer = map.get(temp[correct]);
 
         let pos = Math.floor(Math.random() * 4);
-        console.log(pos);
         switch (pos) {
             case 0:
                 button1 = answer;
@@ -83,12 +75,6 @@
             nextQuestion();
         }, 2500);
     }
-
-    function returnHome(){
-        dispatch("message", {
-            text: 'home'
-        });
-    }
 </script>
 
 <style>
@@ -118,10 +104,6 @@
         width: 15%;
         font-size: large;
     }
-
-    #return {
-        margin-top: 5%;
-    }
 </style>
 
 <div class="centered">
@@ -136,8 +118,4 @@
     <button class="option" on:click={() => onButtonClick(button2)}>{button2}</button>
     <button class="option" on:click={() => onButtonClick(button3)}>{button3}</button>
     <button class="option" on:click={() => onButtonClick(button4)}>{button4}</button>
-</div>
-
-<div class="centered" id="return">
-    <button on:click={returnHome}>Return to Home</button>
 </div>

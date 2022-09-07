@@ -70,12 +70,6 @@
         answer = map.get(temp[correct]);
         console.log(answer);
     }
-
-    function returnHome() {
-        dispatch("message", {
-            text: 'home'
-        });
-    }
 </script>
 
 <div class="centered">
@@ -86,6 +80,5 @@
     <div>
         <input bind:value="{input}">
         <button on:click={submitAnswer}>Submit</button>
-        <button on:click={returnHome}>Home</button>
     </div>
 </div>
