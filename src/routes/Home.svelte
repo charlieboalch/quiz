@@ -1,62 +1,73 @@
 <style>
-    .title {
+    :global(body) {
+        margin: 0px;
+        padding: 0px;
+    }
+
+    #quiz-data-div {
+        width: 48%;
+        float: left;
+        height: 87vh;
+        margin-top: 0.5em;
+        margin-left: 0.5em;
+    }
+
+    #map-display-div {
+        width: 50%;
+        float: right;
+        height: 87vh;
+        overflow: scroll;
+        margin-top: 0.5em;
+        margin-right: 0.5em;
+    }
+
+    textarea {
+        width: 95%;
+        height: 100%;
+        resize: none;
+    }
+
+    p {
         font-family: Verdana, Geneva, Tahoma, sans-serif;
-        font-size: 50px;
-        padding-top: 10%;
+        font-size: medium;
     }
 
-    .centered {
-        width: 100%;
-        text-align: center;
-    }
-
-    .flavortext {
-        font-family: Verdana, Geneva, Tahoma, sans-serif;
-        font-size: large;
-    }
-
-    .input {
-        margin: 2%;
-        margin-right: 0%;
-        margin-left: 35%;
-        margin-bottom: 0%;
-        max-width: 25%;
-        text-align: left;
-    }
-
-    .button {
-        margin-top: 5px;
+    hr {
+        border-top: 1px solid lightgray;
     }
 </style>
 
 <script>
     //import fetch from "node-fetch";
-    import { createEventDispatcher } from 'svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
 
-	const dispatch = createEventDispatcher();
+    const dispatch = createEventDispatcher();
 
-    let data = '';
-    let isLoaded = false;
+    export let data = '';
     export let map = new Map();
+    let mapTermDiv;
+    let newTerm = '';
+    let newValue = '';
+    let mapTerms = [];
 
     function parseData () {
         if (data == '') return;
-        isLoaded = false;
+        mapTerms = [];
+        map = new Map();
         const datalist = data.split(";;");
         datalist.splice(datalist.length - 1, 1);
         for (let i = 0; i < datalist.length; i++){
-            const list = datalist[i].split("?:");
-            map.set(list[0], list[1]);
+            try{
+                const list = datalist[i].split("?:");
+                map.set(list[0], list[1]);
+            } catch (err){
+                alert("Error parsing data! Is it formatted correctly?");
+                continue;
+            }
         }
-        data = '';
-        isLoaded = true;
         map = map;
-    }
-
-    function broadcastDestination(place){
-        dispatch('message', {
-            text: place
-        });
+        mapTerms = Array.from(map.keys());
+        dataCache = data;
     }
 
     function swapKeyValue(){
@@ -72,28 +83,48 @@
 
         map = map;
     }
+
+    onMount(() => {
+        mapTerms = Array.from(map.keys());
+        data = data;
+    });
+
+    function resetData() {
+        data = '';
+        mapTerms = [];
+        map = new Map();
+    }
+
+    function addTerm() {
+        map.set(newTerm, newValue);
+        map = map;
+        mapTerms = Array.from(map.keys());
+        data = data + newTerm + "?:" + newValue + ";;";
+        newTerm = '';
+        newValue = '';
+        scrollToBottom(mapTermDiv);
+    }
+
+    function scrollToBottom (node) {
+        node.scroll({ top: node.scrollHeight, behavior: 'smooth' });
+    };
 </script>
 
-<div class="title centered">
-    Quiz Me
-</div>
-<div class="flavortext centered">
-    now portable
-</div>
-
-<div>
-    <input class="input centered" type="text" placeholder="Quizlet data" bind:value="{data}">
-    <button on:click="{parseData}">Load</button>
+<div id="quiz-data-div">
+    <textarea placeholder="Data" bind:value={data}></textarea>
+    <button on:click={parseData}>Load</button>
+    <button on:click={resetData}>Reset</button>
 </div>
 
-<div class="centered">
-    {#if map.size != 0}
-        <button class="button" on:click={() => broadcastDestination('mc')}>Multiple Choice</button>
-        <button class="button" on:click={() => broadcastDestination('learn')}>Learn</button>
-        <button class="button" on:click={() => broadcastDestination('terms')}>Terms</button>
-        <button class="button" on:click={swapKeyValue}>Swap Definitions</button>
-    {/if}
-    <button class="button" on:click={() => {
-        alert("To use: \nGo to a Quizlet set while logged into an account, click the ... below the flashcards, select 'export', set space between term and definition to '?:' and between rows to ';;', then paste in text box.")
-    }}>Help</button>
+<div id="map-display-div" bind:this={mapTermDiv}>
+    {#each mapTerms as term}
+        <p>{term}: {map.get(term)}</p>
+        <hr>
+    {/each}
+
+    <div>
+        <input bind:value={newTerm} placeholder="New term" style="display: inline-block;">
+        <input bind:value={newValue} placeholder="New value" style="display: inline-block;">
+        <button on:click={addTerm}>Add term</button>
+    </div>
 </div>

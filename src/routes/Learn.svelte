@@ -37,7 +37,7 @@
     let shouldShowAnswer = false;
 
     function submitAnswer() {
-        if (stringSimilarity.compareTwoStrings(answer, input) >= 0.80){
+        if (stringSimilarity.compareTwoStrings(answer.toLowerCase(), input.toLowerCase()) >= 0.80){
             prompt = "Correct!";
         } else {
             prompt = "Incorrect :(";
