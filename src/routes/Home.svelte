@@ -45,7 +45,6 @@
 
     export let data = '';
     export let map = new Map();
-    let mapTermDiv;
     let newTerm = '';
     let newValue = '';
     let mapTerms = [];
@@ -102,12 +101,7 @@
         data = data + newTerm + "?:" + newValue + ";;";
         newTerm = '';
         newValue = '';
-        scrollToBottom(mapTermDiv);
     }
-
-    function scrollToBottom (node) {
-        node.scroll({ top: node.scrollHeight, behavior: 'smooth' });
-    };
 </script>
 
 <div id="quiz-data-div">
@@ -116,7 +110,7 @@
     <button on:click={resetData}>Reset</button>
 </div>
 
-<div id="map-display-div" bind:this={mapTermDiv}>
+<div id="map-display-div">
     {#each mapTerms as term}
         <p>{term}: {map.get(term)}</p>
         <hr>
