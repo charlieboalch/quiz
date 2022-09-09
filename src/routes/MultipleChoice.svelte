@@ -1,5 +1,6 @@
 <script>
     import { createEventDispatcher, onMount } from 'svelte';
+    import Denque from 'denque'
     export let map;
     let prompt = '';
     let answer = '';
@@ -8,8 +9,17 @@
     let button3 = '';
     let button4 = '';
     let shouldShowAnswer = false;
+    let queue;
 
     const dispatch = createEventDispatcher();
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
 
     //init logic
     onMount(() => {
@@ -17,48 +27,54 @@
             throw new TypeError("Map is incorrect type, contact server administrator");
         }
 
+        let tempTerms = Array.from(map.keys());
+        queue = new Denque(shuffleArray(tempTerms));
+
         nextQuestion();
     });
 
     function nextQuestion() {
         if (!(map instanceof Map)) return;
+        if (queue.isEmpty()){
+            let tempTerms = Array.from(map.keys());
+            queue = new Denque(shuffleArray(tempTerms));
+            alert(queue.toArray().toString());
+        }
         button1 = '';
         button2 = '';
         button3 = '';
         button4 = '';
         shouldShowAnswer = false;
-        let correct = Math.floor(Math.random() * map.size);
-
-        let temp = Array.from(map.keys());
-
-        prompt = temp[correct];
-        answer = map.get(temp[correct]);
+        
+        prompt = queue.shift();
+        answer = map.get(prompt);
 
         let pos = Math.floor(Math.random() * 4);
+        let temp = Array.from(map.keys());
         switch (pos) {
             case 0:
                 button1 = answer;
-                button2 = map.get(temp[Math.floor(Math.random() * map.size)]);
-                button3 = map.get(temp[Math.floor(Math.random() * map.size)]);
-                button4 = map.get(temp[Math.floor(Math.random() * map.size)]);
+                button2 = map.get(temp[Math.floor(Math.random() * temp.length)]);
+                button3 = map.get(temp[Math.floor(Math.random() * temp.length)]);
+                button4 = map.get(temp[Math.floor(Math.random() * temp.length)]);
                 break;
             case 1:
                 button2 = answer;
-                button1 = map.get(temp[Math.floor(Math.random() * map.size)]);
-                button3 = map.get(temp[Math.floor(Math.random() * map.size)]);
-                button4 = map.get(temp[Math.floor(Math.random() * map.size)]);
+                button1 = map.get(temp[Math.floor(Math.random() * temp.length)]);
+                button3 = map.get(temp[Math.floor(Math.random() * temp.length)]);
+                button4 = map.get(temp[Math.floor(Math.random() * temp.length)]);
                 break;
             case 2:
                 button3 = answer;
-                button2 = map.get(temp[Math.floor(Math.random() * map.size)]);
-                button1 = map.get(temp[Math.floor(Math.random() * map.size)]);
-                button4 = map.get(temp[Math.floor(Math.random() * map.size)]);
+                button2 = map.get(temp[Math.floor(Math.random() * temp.length)]);
+                button1 = map.get(temp[Math.floor(Math.random() * temp.length)]);
+                button4 = map.get(temp[Math.floor(Math.random() * temp.length)]);
                 break;
             case 3:
                 button4 = answer;
-                button2 = map.get(temp[Math.floor(Math.random() * map.size)]);
-                button3 = map.get(temp[Math.floor(Math.random() * map.size)]);
-                button1 = map.get(temp[Math.floor(Math.random() * map.size)]);    
+                button2 = map.get(temp[Math.floor(Math.random() * temp.length)]);
+                button3 = map.get(temp[Math.floor(Math.random() * temp.length)]);
+                button1 = map.get(temp[Math.floor(Math.random() * temp.length)]);    
                 break;
         }
     }

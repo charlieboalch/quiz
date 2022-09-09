@@ -42,6 +42,7 @@
         border: 0;
         background-color: #fff6f6f8;
         color: gray;
+        font-weight: bolder;
         border-radius: 8px;
     }
 </style>
@@ -49,7 +50,6 @@
 <script>
     //import fetch from "node-fetch";
     import { onMount } from 'svelte';
-	import { slide } from 'svelte/transition';
 
     export let data = '';
     export let map = new Map();
@@ -74,7 +74,6 @@
         }
         map = map;
         mapTerms = Array.from(map.keys());
-        dataCache = data;
     }
 
     function swapKeyValue(){
@@ -133,11 +132,12 @@
     <textarea placeholder="Data" bind:value={data}></textarea>
     <button on:click={parseData}>Load</button>
     <button on:click={resetData}>Reset</button>
+    <button on:click={swapKeyValue}>Swap Terms</button>
 </div>
 
 <div id="map-display-div">
     {#each mapTerms as term}
-        <div transition:slide>
+        <div>
             <p>{term}: {map.get(term)}</p>
             <button class="remove-term" on:click={() => removeTerm(term)}>X</button>
             <hr>

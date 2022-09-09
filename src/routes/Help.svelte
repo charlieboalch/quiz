@@ -23,7 +23,6 @@
 </style>
 
 <h1>How to use</h1>
-
 <p>
     You can either load a set directly from Quizlet or create your own in the browser.
     To load from Quizlet, sign into Quizlet, load into the set, click on the "..." below the flash cards, and click on "export". Then, set "between term and definition" to "?:" and "between rows" to ";;". Finally, copy and paste the generated text into the large text box in the app.
@@ -39,4 +38,10 @@
 <h1>How do the flashcards work?</h1>
 <p>
     Press space.
+</p>
+<hr>
+
+<h1>Do images from my set load?</h1>
+<p>
+    No.
 </p>
