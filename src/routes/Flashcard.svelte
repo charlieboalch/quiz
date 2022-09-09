@@ -1,17 +1,23 @@
 <style>
     p {
-        width: 100%;
-        height: 100%;
         text-align: center;
-        padding-top: 5em;
+        padding: 5em;
+        margin-left: 10%;
+        margin-right: 10%;
+        margin-top: 10%;
         font-family: Verdana, Geneva, Tahoma, sans-serif;
         font-size: x-large;
+        border-color: #054A29;
+        border-style: solid;
+        border-radius: 16px;
+        background-color: #7be091;
     }
 
     div {
         width: 100%;
         height: 90vh;
         display: inline-block;
+        align-items: center;
     }
 </style>
 

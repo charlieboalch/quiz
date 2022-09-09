@@ -34,3 +34,9 @@
 <p>
     You need to load a set to access the learn modes. It won't work if you have a blank set.
 </p>
+<hr>
+
+<h1>How do the flashcards work?</h1>
+<p>
+    Press space.
+</p>
