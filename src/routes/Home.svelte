@@ -30,16 +30,26 @@
     p {
         font-family: Verdana, Geneva, Tahoma, sans-serif;
         font-size: medium;
+        display: inline;
+        margin-right: 0.5em;
     }
 
     hr {
         border-top: 1px solid lightgray;
+    }
+
+    .remove-term{
+        border: 0;
+        background-color: #fff6f6f8;
+        color: gray;
+        border-radius: 8px;
     }
 </style>
 
 <script>
     //import fetch from "node-fetch";
     import { onMount } from 'svelte';
+	import { slide } from 'svelte/transition';
 
     export let data = '';
     export let map = new Map();
@@ -79,6 +89,8 @@
         }
 
         map = map;
+        data = generateMapString();
+        mapTerms = Array.from(map.keys());
     }
 
     onMount(() => {
@@ -100,6 +112,21 @@
         newTerm = '';
         newValue = '';
     }
+
+    function removeTerm(term) {
+        map.delete(term);
+        data = generateMapString();
+        map = map;
+        mapTerms = Array.from(map.keys());
+    }
+
+    function generateMapString() {
+        let base = '';
+        for (const key of map.keys()){
+            base = base + key + "?:" + map.get(key) + ";;";
+        }
+        return base; 
+    }
 </script>
 
 <div id="quiz-data-div">
@@ -110,8 +137,11 @@
 
 <div id="map-display-div">
     {#each mapTerms as term}
-        <p>{term}: {map.get(term)}</p>
-        <hr>
+        <div transition:slide>
+            <p>{term}: {map.get(term)}</p>
+            <button class="remove-term" on:click={() => removeTerm(term)}>X</button>
+            <hr>
+        </div>
     {/each}
 
     <div>
