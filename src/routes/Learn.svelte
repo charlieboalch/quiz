@@ -27,6 +27,7 @@
 <script>
     import { createEventDispatcher, onMount } from 'svelte';
     import stringSimilarity from 'string-similarity'
+    import Denque from 'denque';
 
     const dispatch = createEventDispatcher();
     export let map;
@@ -35,6 +36,7 @@
     let answer = '';
     let input = '';
     let shouldShowAnswer = false;
+    let queue;
 
     function submitAnswer() {
         if (stringSimilarity.compareTwoStrings(answer.toLowerCase(), input.toLowerCase()) >= 0.80){
@@ -55,20 +57,31 @@
             throw new TypeError("Map is incorrect type, contact server administrator");
         }
 
+        let tempTerms = Array.from(map.keys());
+        queue = new Denque(shuffleArray(tempTerms));
+
         nextQuestion();
     });
 
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
     function nextQuestion() {
         if (!(map instanceof Map)) return;
+        if (queue.isEmpty()){
+            let tempTerms = Array.from(map.keys());
+            queue = new Denque(shuffleArray(tempTerms));
+        }
         input = '';
         shouldShowAnswer = false;
 
-        let correct = Math.floor(Math.random() * map.size);
-        let temp = Array.from(map.keys());
-
-        prompt = temp[correct];
-        answer = map.get(temp[correct]);
-        console.log(answer);
+        prompt = queue.shift();
+        answer = map.get(prompt);
     }
 </script>
 
@@ -78,7 +91,9 @@
         <p>{answer}</p>
     {/if}
     <div>
-        <input bind:value="{input}">
-        <button on:click={submitAnswer}>Submit</button>
+        <form onsubmit="return false">
+            <input bind:value="{input}">
+            <button on:click={submitAnswer}>Submit</button>
+        </form>
     </div>
 </div>

@@ -44,12 +44,13 @@
         color: gray;
         font-weight: bolder;
         border-radius: 8px;
+        cursor: pointer;
     }
 </style>
 
 <script>
-    //import fetch from "node-fetch";
     import { onMount } from 'svelte';
+    import { flip } from 'svelte/animate';
 
     export let data = '';
     export let map = new Map();
@@ -104,6 +105,11 @@
     }
 
     function addTerm() {
+        if (map.get(newTerm) != null){
+            newTerm = "";
+            newValue = "";
+            return;
+        }
         map.set(newTerm, newValue);
         map = map;
         mapTerms = Array.from(map.keys());
@@ -145,8 +151,10 @@
     {/each}
 
     <div>
-        <input bind:value={newTerm} placeholder="New term" style="display: inline-block;">
-        <input bind:value={newValue} placeholder="New value" style="display: inline-block;">
-        <button on:click={addTerm}>Add term</button>
+        <form onsubmit="return false">
+            <input bind:value={newTerm} placeholder="New term" style="display: inline-block;">
+            <input bind:value={newValue} placeholder="New value" style="display: inline-block;">
+            <button on:click={addTerm}>Add term</button>
+        </form>
     </div>
 </div>

@@ -65,4 +65,4 @@
     <p>{display}</p>
 </div>
 
-<svelte:window on:keypress|preventDefault={onKeyPress} on:click={onKeyPress}/>
+<svelte:window on:keypress|preventDefault={onKeyPress}/>

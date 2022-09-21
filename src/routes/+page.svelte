@@ -34,6 +34,10 @@
         color: white;
     }
 
+    .title:hover {
+        cursor: pointer;
+    }
+
     .menu-button {
         border: 1px;
         color: white;
@@ -49,6 +53,7 @@
 
     .menu-button:hover {
         background-color: #087742;
+        cursor: pointer;
     }
 
     .banner {
@@ -64,7 +69,7 @@
 <title>Quiz Me</title>
 
 <div class="banner">
-    <h1 class="title">Quiz Me |</h1>
+    <h1 class="title" on:click={() => handleScreenChange('home')}>Quiz Me |</h1>
     <button class="menu-button" on:click={() => handleScreenChange('home')}>Home</button>
     <button class="menu-button" on:click={() => handleScreenChange('flash')}>Flashcard</button>
     <button class="menu-button" on:click={() => handleScreenChange('mc')}>Multiple Choice</button>
